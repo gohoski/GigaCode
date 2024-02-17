@@ -4,6 +4,6 @@
         <title>Hello</title>
     </head>
     <body>
-        <p>Hello ${text}</p>
+        <p>Hello ${param.text}</p>
     </body>
 </html>
