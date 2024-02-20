@@ -12,6 +12,7 @@ import java.io.IOException;
 public class ExerciseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("name", "value");
         req.getRequestDispatcher("/webapp/exercise.jsp").forward(req, resp);
     }
 }
