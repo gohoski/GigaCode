@@ -8,18 +8,18 @@ public class Exercise {
     public int id;
     public String type;
     public JSONObject data;
-    public String[] tests;
+    public String test;
 
-    public Exercise(int id, String type, JSONObject data, String[] tests) {
+    public Exercise(int id, String type, JSONObject data, String test) {
         this.id = id;
         this.type = type;
         this.data = data;
-        this.tests = tests;
+        this.test = test;
     }
 
     public boolean checkAnswer(String[] classes) throws IOException {
         PrintWriter printWriter = new PrintWriter(new FileOutputStream("/result/Main.java", false));
-        printWriter.write(tests[0]);
+        printWriter.write(test);
         printWriter.close();
         Runtime.getRuntime().exec("javac /result/Main.java");
         return true;
