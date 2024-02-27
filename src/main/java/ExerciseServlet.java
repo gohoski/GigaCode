@@ -11,7 +11,9 @@ public class ExerciseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.setAttribute("test", new Exercises().get(0).test);
+            Exercise exercise = new Exercises().get(0);
+            req.setAttribute("type", exercise.type);
+            req.setAttribute("data", exercise.data);
             req.getRequestDispatcher("/webapp/exercise.jsp").forward(req, resp);
         } catch (ParseException e) {
             e.printStackTrace();
