@@ -1,0 +1,19 @@
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("/resources/JetBrainsMono-Bold.woff2") format("woff2");
+}
+
+.textarea {
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+#editor {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    bottom: 1em;
+    left: 1em;
+}

@@ -16,7 +16,7 @@ public class Exercises {
     Exercises() throws IOException, ParseException {
         Properties prop = new Properties();
         prop.load(new FileInputStream("app.config"));
-        Scanner sc = new Scanner(new File(prop.getProperty("src_dir") + "/main/resources/exercises.txt"));
+        Scanner sc = new Scanner(new File(prop.getProperty("src_dir") + "/resources/exercises.txt"));
         exercises = parse(sc);
     }
     Exercises(String path) throws FileNotFoundException, ParseException {
