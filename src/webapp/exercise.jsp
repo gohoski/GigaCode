@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="org.json.simple.JSONObject" %>
-<% JSONObject data = (JSONObject) request.getAttribute("data"); %>
+<%@ page import="org.json.simple.JSONArray" %>
+<% JSONObject data = (JSONObject) (((JSONArray) request.getAttribute("data")).get(0)); %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,34 +12,36 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
         <script src="/resources/scripts/ace/ace.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <%= (String) data.get("name") %>
+        <%= (String) ((JSONObject) ((JSONArray) data.get("variables")).get(0)).get("name") %>
+        <% Object[] users = ((JSONArray) (data.get("variables"))).toArray(); %>
+        <%= users[0].toString() %>
         <div class="tile is-ancestor">
-          <div class="tile is-parent">
-            <article class="tile is-child box">
-              <p class="title">One</p>
-              <p class="subtitle">Subtitle</p>
-            </article>
-          </div>
-          <div class="tile is-parent">
-            <article class="tile is-child box">
-              <p class="title">Two</p>
-              <p class="subtitle">Subtitle</p>
-            </article>
-          </div>
-          <div class="tile is-parent">
-            <article class="tile is-child box">
-              <p class="title">Three</p>
-              <p class="subtitle">Subtitle</p>
-            </article>
-          </div>
-          <div class="tile is-parent">
-            <article class="tile is-child box">
-              <p class="title">Four</p>
-              <p class="subtitle">Subtitle</p>
-            </article>
-          </div>
+            <div class="tile is-parent">
+                <article class="tile is-child box">
+                    <p class="title"><%= (String) data.get("name") %></p>
+                    <div class="content">
+                        <%--<c:forEach var="user" items="${users}">
+                            <% String name = (String) ((JSONObject) user).get("name"); %>
+                            <p><span class="modifier protected">#</span> ${name}</p>
+                        </c:forEach>--%>
+                    </div>
+                </article>
+            </div>
+            <div class="tile is-parent">
+                <article class="tile is-child box">
+                    <p class="title">Two</p>
+                    <p>Subtitle</p>
+                </article>
+            </div>
+            <div class="tile is-parent">
+                <article class="tile is-child box">
+                    <p class="title">Three</p>
+                    <p class="subtitle">Subtitle</p>
+                </article>
+            </div>
         </div>
         <div class="box" style="position: relative; height: 51vh">
             <div id="editor">class fd {}</div>

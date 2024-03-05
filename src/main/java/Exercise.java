@@ -1,3 +1,4 @@
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.FileOutputStream;
@@ -7,10 +8,10 @@ import java.io.PrintWriter;
 public class Exercise {
     public int id;
     public String type;
-    public JSONObject data;
+    public JSONArray data;
     public String test;
 
-    public Exercise(int id, String type, JSONObject data, String test) {
+    public Exercise(int id, String type, JSONArray data, String test) {
         this.id = id;
         this.type = type;
         this.data = data;

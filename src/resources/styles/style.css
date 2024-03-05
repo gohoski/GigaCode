@@ -3,17 +3,37 @@
     src: url("/resources/JetBrainsMono-Bold.woff2") format("woff2");
 }
 
-.textarea {
+article.tile {
     font-family: "JetBrains Mono", monospace;
     font-optical-sizing: auto;
-    font-weight: 300;
     font-style: normal;
+}
+
+p.title {
+    font-weight: 700;
+}
+div.content {
+    font-weight: 300;
+}
+
+.modifier {
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+}
+.protected {
+    background-color: #595900;
+    color: yellow;
+    border: solid #abad00;
 }
 
 #editor {
     position: absolute;
-    top: 1em;
-    right: 1em;
-    bottom: 1em;
-    left: 1em;
+    top: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+}
+
+body {
+    padding: 4vw
 }
