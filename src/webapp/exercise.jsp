@@ -1,12 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="org.json.simple.JSONObject" %>
 <%@ page import="org.json.simple.JSONArray" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <% JSONObject data = (JSONObject) (((JSONArray) request.getAttribute("data")).get(0)); %>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Exercise - GigaCode</title>
-        <link rel="stylesheet" href="/resources/styles/darkly.min.css" type="text/css">
+        <link rel="stylesheet" href="/resources/styles/bulma/darkly.min.css" type="text/css">
         <link rel="stylesheet" href="/resources/styles/style.css" type="text/css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,18 +16,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <%= (String) ((JSONObject) ((JSONArray) data.get("variables")).get(0)).get("name") %>
-        <% Object[] users = ((JSONArray) (data.get("variables"))).toArray(); %>
-        <%= users[0].toString() %>
+        <%--= (String) ((JSONObject) ((JSONArray) data.get("variables")).get(0)).get("name") --%>
+        <jsp:scriptlet>
+            pageContext.setAttribute("variables", ((JSONArray) (data.get("variables"))).toArray());
+            pageContext.setAttribute("functions", ((JSONArray) (data.get("functions"))).toArray());
+        </jsp:scriptlet>
         <div class="tile is-ancestor">
             <div class="tile is-parent">
                 <article class="tile is-child box">
                     <p class="title"><%= (String) data.get("name") %></p>
                     <div class="content">
-                        <%--<c:forEach var="user" items="${users}">
-                            <% String name = (String) ((JSONObject) user).get("name"); %>
-                            <p><span class="modifier protected">#</span> ${name}</p>
-                        </c:forEach>--%>
+                        <c:forEach var="var" items="${pageScope.variables}">
+                            <div>
+                                <span class="modifier <c:out value='${var.get("modifier")}'/>"></span>
+                                <c:out value='${var.get("name")}'/>:
+                                <i><c:out value='${var.get("type")}'/></i>
+                            </div>
+                        </c:forEach>
+                        <hr/>
+                        <c:forEach var="func" items="${pageScope.functions}">
+                            <div>
+                                <span class="modifier <c:out value='${func.get("modifier")}'/>"></span>
+                                <c:out value='${func.get("name")}'/>(
+                                <c:forEach var="var" items="${func.get('variables')}" varStatus="loop">
+                                    <c:out value="${var.get('name')}" />:
+                                    <i><c:out value="${var.get('type')}" /></i>
+                                    <c:if test="${!loop.last}">,</c:if>
+                                </c:forEach>
+                                )
+                            </div>
+                        </c:forEach>
                     </div>
                 </article>
             </div>
@@ -50,9 +69,11 @@
             let editor = ace.edit("editor");
             editor.setTheme("ace/theme/dracula");
             editor.session.setMode("ace/mode/java");
-            editor.setOption('showPrintMargin', false);
-            editor.setOption('fontFamily', 'JetBrains+Mono');
-            editor.setOption('fontSize', '.96em');
+            editor.setOptions({
+                'showPrintMargin': false,
+                'fontFamily': 'JetBrains Mono',
+                'fontSize': '.96em'
+            });
         </script>
     </body>
 </html>
