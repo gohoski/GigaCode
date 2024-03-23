@@ -1,5 +1,4 @@
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,7 +21,7 @@ public class Exercise {
         PrintWriter printWriter = new PrintWriter(new FileOutputStream("/result/Main.java", false));
         printWriter.write(test);
         printWriter.close();
-        Runtime.getRuntime().exec("javac /result/Main.java");
+        Runtime.getRuntime().exec(new String[]{"javac", "/result/Main.java"});
         return true;
     }
 }

@@ -14,6 +14,7 @@ public class ExerciseServlet extends HttpServlet {
             Exercise exercise = new Exercises().get(0);
             req.setAttribute("type", exercise.type);
             req.setAttribute("data", exercise.data);
+            //req.setAttribute("variables", ((JSONArray) (exercise.data.get("variables"))).toArray())
             req.getRequestDispatcher("/webapp/exercise.jsp").forward(req, resp);
         } catch (ParseException e) {
             e.printStackTrace();

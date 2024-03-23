@@ -1,4 +1,97 @@
-0|scheme|[{"name":"Animal","variables":[{"name": "name", "type": "String", "modifier": "protected"},{"name": "calories", "type": "int", "modifier": "protected"}],"functions":[{"name":"eat","modifier":"protected","variables":[{"name": "calories", "type": "int"},{"name": "calories", "type": "int"},{"name": "calories", "type": "int"}]}]}]|
+0|scheme|[{
+    "name":"Animal",
+    "variables":[
+        {
+            "name": "name",
+            "type": "String",
+            "modifier": "protected"
+        },{
+            "name": "calories",
+            "type": "int",
+            "modifier": "protected"
+        }
+    ],
+    "functions":[
+        {
+            "name":"eat",
+            "modifier":"protected",
+            "variables":[
+                {
+                    "name": "calories",
+                    "type": "int"
+                }, {
+                    "name": "calories",
+                    "type": "int"
+                },{
+                    "name": "calories",
+                    "type": "int"
+                }
+            ]
+        }
+    ]
+},{
+      "name":"Animal",
+      "variables":[
+          {
+              "name": "name",
+              "type": "String",
+              "modifier": "protected"
+          },{
+              "name": "calories",
+              "type": "int",
+              "modifier": "protected"
+          }
+      ],
+      "functions":[
+          {
+              "name":"eat",
+              "modifier":"protected",
+              "variables":[
+                  {
+                      "name": "calories",
+                      "type": "int"
+                  }, {
+                      "name": "calories",
+                      "type": "int"
+                  },{
+                      "name": "calories",
+                      "type": "int"
+                  }
+              ]
+          }
+      ]
+},{
+       "name":"Animal",
+       "variables":[
+           {
+               "name": "name",
+               "type": "String",
+               "modifier": "protected"
+           },{
+               "name": "calories",
+               "type": "int",
+               "modifier": "protected"
+           }
+       ],
+       "functions":[
+           {
+               "name":"eat",
+               "modifier":"protected",
+               "variables":[
+                   {
+                       "name": "calories",
+                       "type": "int"
+                   }, {
+                       "name": "calories",
+                       "type": "int"
+                   },{
+                       "name": "calories",
+                       "type": "int"
+                   }
+               ]
+           }
+       ]
+}]|
 public class Main {
     public static void main(String args[]) {
         System.out.println("Hello World!");

@@ -15,7 +15,7 @@ public class Exercises {
 
     Exercises() throws IOException, ParseException {
         Properties prop = new Properties();
-        prop.load(new FileInputStream("app.config"));
+        prop.load(new FileInputStream("gigacode.properties"));
         Scanner sc = new Scanner(new File(prop.getProperty("src_dir") + "/resources/exercises.txt"));
         exercises = parse(sc);
     }
@@ -26,15 +26,16 @@ public class Exercises {
 
     private ArrayList<Exercise> parse(Scanner sc) throws ParseException {
         ArrayList<Exercise> exercises = new ArrayList<>();
-
         StringBuilder file = new StringBuilder();
         while (sc.hasNextLine())
             file.append(sc.nextLine());
         String[] arr = file.toString().split("\\|");
         for (int i = 0; i < arr.length/4; i++) {
-            exercises.add(new Exercise(Integer.parseInt(arr[i*4]), arr[i*4 + 1], (JSONArray) new JSONParser().parse(arr[i*4 + 2]), arr[i*4 + 3]));
+            exercises.add(new Exercise(Integer.parseInt(arr[i*4]),
+                    arr[i*4 + 1],
+                    (JSONArray) new JSONParser().parse(arr[i*4 + 2]),
+                    arr[i*4 + 3]));
         }
-
         return exercises;
     }
 

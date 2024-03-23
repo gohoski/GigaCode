@@ -1,7 +1,7 @@
-article.tile {
+* {
     font-family: "JetBrains Mono", monospace !important;
     font-optical-sizing: auto;
-    font-style: normal;
+    font-weight: 300;
 }
 
 p.title {
@@ -27,10 +27,10 @@ div.content {
 
 #editor {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    left: 1rem;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 body {
@@ -39,4 +39,13 @@ body {
 
 li {
     list-style-type: none;
+}
+
+.inherited::before {
+    content: "🠐";
+    font-size: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*position: relative*/
 }
