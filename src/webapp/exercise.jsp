@@ -17,7 +17,8 @@
     <body>
         <div class="tile is-ancestor">
             <c:forEach var="tile" items='${data}' varStatus="loop">
-                <div class="tile is-parent is-marginless is-paddingless ${!loop.first ? 'inherited' : ''}">
+                ${!loop.first ? '<div class="inherited"></div>' : ''}
+                <div class="tile is-parent is-marginless is-paddingless">
                     <article class="tile is-child box notification">
                         <p class="title">${tile.get("name")}</p>
                         <div class="content">
@@ -44,40 +45,20 @@
                     </article>
                 </div>
             </c:forEach>
-            <%-- <div class="tile is-parent">
-                <article class="tile is-child box">
-                    <p class="title">Two</p>
-                    <p>Subtitle</p>
-                </article>
-            </div>
-            <div class="tile is-parent">
-                <article class="tile is-child box">
-                    <p class="title">Three</p>
-                    <p class="subtitle">Subtitle</p>
-                </article>
-            </div> --%>
         </div>
         <div class="box is-marginless">
             <div class="tabs is-boxed is-marginless" >
               <ul>
                 <c:forEach var="file" items="${data}">
-                  <li>
+                  <li onclick="setTab(this)">
                     <a><span>${file.get("name")}.java</span></a>
                   </li>
                 </c:forEach>
               </ul>
+              <button class="button is-primary" onclick="checkResults()">Отправить</button>
             </div>
-            <div style="position: relative; height: 51vh"><div id="editor">class fd {}</div></div>
+            <div style="position: relative; height: 51vh"><div id="editor"></div></div>
         </div>
-        <script>
-            let editor = ace.edit("editor");
-            editor.setTheme("ace/theme/dracula");
-            editor.session.setMode("ace/mode/java");
-            editor.setOptions({
-                'showPrintMargin': false,
-                'fontFamily': 'JetBrains Mono',
-                'fontSize': '.96em'
-            });
-        </script>
+        <script src="/resources/scripts/exercise.js"></script>
     </body>
 </html>

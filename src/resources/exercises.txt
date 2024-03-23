@@ -30,7 +30,7 @@
         }
     ]
 },{
-      "name":"Animal",
+      "name":"Cat",
       "variables":[
           {
               "name": "name",
@@ -61,7 +61,7 @@
           }
       ]
 },{
-       "name":"Animal",
+       "name":"Tiger",
        "variables":[
            {
                "name": "name",

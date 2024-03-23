@@ -41,11 +41,22 @@ li {
     list-style-type: none;
 }
 
-.inherited::before {
-    content: "🠐";
+/*.inherited {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
     font-size: 5rem;
-    display: flex;
-    justify-content: center;
+}
+.inherited-container {
+    position: relative;
+}*/
+
+.tile.is-ancestor {
     align-items: center;
-    /*position: relative*/
+}
+.inherited::before {
+    content: "\1F810";
+    font-size: 4rem;
 }

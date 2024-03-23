@@ -3,6 +3,7 @@ import org.json.simple.JSONArray;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class Exercise {
     public int id;
@@ -17,7 +18,7 @@ public class Exercise {
         this.test = test;
     }
 
-    public boolean checkAnswer(String[] classes) throws IOException {
+    public boolean checkAnswer(ArrayList<String> classes) throws IOException {
         PrintWriter printWriter = new PrintWriter(new FileOutputStream("/result/Main.java", false));
         printWriter.write(test);
         printWriter.close();
