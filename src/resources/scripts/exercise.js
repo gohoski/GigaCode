@@ -1,5 +1,5 @@
 let editor = ace.edit("editor");
-editor.setTheme("ace/theme/dracula");
+editor.setTheme("ace/theme/tomorrow_night_bright");
 let sessions = {};
 document.querySelectorAll('li').forEach(i => {
     let session = new ace.EditSession(`class ${i.innerText.split('.')[0]} {

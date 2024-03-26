@@ -1,9 +1,9 @@
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Exercise {
     public int id;
@@ -18,11 +18,31 @@ public class Exercise {
         this.test = test;
     }
 
-    public boolean checkAnswer(ArrayList<String> classes) throws IOException {
-        PrintWriter printWriter = new PrintWriter(new FileOutputStream("/result/Main.java", false));
-        printWriter.write(test);
+    public String[] checkAnswer(ArrayList<String> classes) throws IOException {
+        for (int i = 0; i < classes.size(); i++) {
+            writeToFile("./temp/" + ((JSONObject) data.get(i)).get("name"),
+                    classes.get(i));
+        }
+        writeToFile("./temp/Main", this.test);
+        execCmd("javac ./temp/*.java");
+        return execCmd("java -cp ./temp/ Main");
+    }
+
+    private static void writeToFile(String path, String content) throws FileNotFoundException {
+        PrintWriter printWriter = new PrintWriter(new FileOutputStream(path + ".java", false));
+        printWriter.write(content);
         printWriter.close();
-        Runtime.getRuntime().exec(new String[]{"javac", "/result/Main.java"});
-        return true;
+    }
+
+    private static String[] execCmd(String cmd) throws IOException {
+        String[] result = new String[2];
+        Process proc = Runtime.getRuntime().exec(cmd);
+
+        Scanner input = new Scanner(proc.getInputStream()).useDelimiter("\\A");
+        result[0] += input.hasNext() ? input.next() : null;
+
+        Scanner error = new Scanner(proc.getErrorStream()).useDelimiter("\\A");
+        result[1] += error.hasNext() ? error.next() : "";
+        return result;
     }
 }
