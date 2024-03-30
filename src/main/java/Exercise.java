@@ -3,6 +3,7 @@ import org.json.simple.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Exercise {
@@ -36,10 +37,11 @@ public class Exercise {
 
     private static String[] execCmd(String cmd) throws IOException {
         String[] result = new String[2];
+        Arrays.fill(result, "");
         Process proc = Runtime.getRuntime().exec(cmd);
 
         Scanner input = new Scanner(proc.getInputStream()).useDelimiter("\\A");
-        result[0] += input.hasNext() ? input.next() : null;
+        result[0] += input.hasNext() ? input.next() : "";
 
         Scanner error = new Scanner(proc.getErrorStream()).useDelimiter("\\A");
         result[1] += error.hasNext() ? error.next() : "";

@@ -97,6 +97,7 @@ public class Main {
         new Cat().main(null);
         new Animal().main(null);
         new Tiger().main(null);
+        System.out.print("SUCCESS:TRUE!");
     }
 }|
 

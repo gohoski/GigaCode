@@ -43,6 +43,9 @@
                 </div>
             </c:forEach>
         </div>
+        <div id="notification" class="notification" style="display: none;">
+            <button class="delete"></button>
+        </div>
         <div class="box is-marginless">
             <div class="tabs is-boxed is-marginless" >
               <ul>
@@ -52,7 +55,7 @@
                   </li>
                 </c:forEach>
               </ul>
-              <button class="button is-primary" onclick="checkResults()">Отправить</button>
+              <button class="button is-primary" onclick="checkResults(this)">Отправить</button>
             </div>
             <div style="position: relative; height: 51vh"><div id="editor"></div></div>
         </div><%--

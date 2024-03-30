@@ -1,5 +1,6 @@
 :root {
     --bulma-family-primary: "JetBrains Mono", monospace !important;
+    --bulma-family-code: var(--bulma-family-primary);
     --bulma-hr-background-color: var(--bulma-grey-light);
     font-optical-sizing: auto;
     font-weight: 300;
@@ -64,4 +65,8 @@ li {
 .inherited::before {
     content: "\1F810";
     font-size: 4rem;
+}
+
+pre {
+    white-space: pre-wrap;
 }
