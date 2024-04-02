@@ -46,35 +46,34 @@ async function checkResults(button) {
         })
     })).json();
     const notification = document.getElementById("notification");
-    if (stdout.includes('SUCCESS:TRUE!')) {
-        const elems = [];
-        let elem;
-        elem = document.createElement('h4');
-        elem.innerText = 'Вывод программы:'
-        elem.classList.add('title');
-        elem.classList.add('is-4');
-        elems.push(elem);
+    const elems = [];
+    let elem;
 
-        elem = document.createElement('pre');
-        elem.innerText = stdout.replace('SUCCESS:TRUE!', '');
-        elems.push(elem);
+    elem = createElem('h4', 'Вывод программы:', ['title', 'is-4']);
+    elems.push(elem);
 
-        elems.push(document.createElement('br'));
+    elem = createElem('pre', stdout.replace('SUCCESS:TRUE!', ''));
+    elems.push(elem);
+    elems.push(createElem('br'));
 
-        elem = document.createElement('h4');
-        elem.innerText = 'Ошибки:'
-        elem.classList.add('title');
-        elem.classList.add('is-4');
-        elems.push(elem);
+    elem = createElem('h4', 'Ошибки:', ['title', 'is-4']);
+    elems.push(elem);
 
-        elem = document.createElement('pre');
-        elem.innerText = stderr;
-        elems.push(elem);
+    elem = createElem('pre', stderr);
+    elems.push(elem);
 
-        elems.forEach(x => notification.append(x));
-
+    elems.forEach(x => notification.append(x));
+    if (stdout.includes('SUCCESS:TRUE!'))
         notification.classList.add("is-success");
-        notification.style.display = 'block';
-    }
+    else
+        notification.classList.add("is-danger");
+    notification.style.display = 'block';
     button.classList.toggle("is-loading");
+}
+
+function createElem(tag, text, classes = []) {
+    const elem = document.createElement(tag);
+    elem.innerText = text;
+    classes.forEach(c => elem.classList.add(c));
+    return elem;
 }

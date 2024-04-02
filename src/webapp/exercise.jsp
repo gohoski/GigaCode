@@ -44,7 +44,6 @@
             </c:forEach>
         </div>
         <div id="notification" class="notification" style="display: none;">
-            <button class="delete"></button>
         </div>
         <div class="box is-marginless">
             <div class="tabs is-boxed is-marginless" >
