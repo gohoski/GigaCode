@@ -1,5 +1,4 @@
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONArray;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class Exercise {
 
     public String[] checkAnswer(ArrayList<String> classes) throws IOException {
         for (int i = 0; i < classes.size(); i++) {
-            writeToFile("./temp/" + ((JSONObject) data.get(i)).get("name"),
+            writeToFile("./temp/" + data.getJSONObject(i).getString("name"),
                     classes.get(i));
         }
         writeToFile("./temp/Main", this.test);

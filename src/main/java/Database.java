@@ -1,8 +1,7 @@
+import org.json.JSONArray;
 import org.sqlite.JDBC;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Database {
     private static String dbPath = "jdbc:sqlite:gigacode.db";
@@ -19,12 +18,12 @@ public class Database {
     private Database() throws SQLException {
         DriverManager.registerDriver(new JDBC());
         this.connection = DriverManager.getConnection(dbPath);
-        this.connection.createStatement().execute("CREATE TABLE IF NOT EXISTS exercises (" +
-                "id integer NOT NULL PRIMARY KEY," +
-                "test string");
-        this.connection.createStatement().execute("CREATE TABLE IF NOT EXISTS classes (" +
-                "exerciseId integer NOT NULL PRIMARY KEY," +
-                "classes NOT NULL");
+        System.out.println(this.connection.createStatement().execute("CREATE TABLE IF NOT EXISTS exercises (" +
+                "id INTEGER NOT NULL PRIMARY KEY, " +
+                "type TEXT, " +
+                "classes JSON NOT NULL, " +
+                "test TEXT" +
+                ")"));
     }
 
     private Database(String dbPath) throws SQLException {
@@ -32,5 +31,21 @@ public class Database {
         new Database();
     }
 
-    public getExercise()
+    public Exercise getExercise(int id) throws SQLException {
+        PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM \"exercises\" WHERE \"id\" = ?");
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        rs.next();
+        return new Exercise(id, rs.getString("type"), new JSONArray(rs.getString("classes")), rs.getString("test"));
+    }
+
+    public int setExercise(int id, String type, JSONArray classes, String test) throws SQLException {
+        PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO exercises(`id`, `type`, `classes`, `test`) " +
+                "VALUES (?, ?, json(?), ?)");
+        stmt.setInt(1, id);
+        stmt.setString(2, type);
+        stmt.setString(3, classes.toString());
+        stmt.setString(4, test);
+        return stmt.executeUpdate();
+    }
 }
