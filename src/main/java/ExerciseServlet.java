@@ -3,11 +3,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 @WebServlet("/exercise")
 public class ExerciseServlet extends HttpServlet {
@@ -124,9 +124,11 @@ public class ExerciseServlet extends HttpServlet {
                     "        System.out.print(\"SUCCESS:TRUE!\");\n" +
                     "    }\n" +
                     "}");*/
-            Exercise exercise = database.getExercise(0);
+            int id = database.getExercisesCount() - 1;
+            Exercise exercise = database.getExercise(id);
             req.setAttribute("type", exercise.type);
             req.setAttribute("data", exercise.data);
+            req.setAttribute("id", id);
             req.getRequestDispatcher("/webapp/exercise.jsp").forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,17 +139,29 @@ public class ExerciseServlet extends HttpServlet {
         try {
             Exercise exercise = database.getExercise(Integer.parseInt(req.getParameter("id")));
             ArrayList<String> classes = new ArrayList<>();
-            while(exercise.data.iterator().hasNext()) {
-                classes.add(req.getParameter(((JSONObject) exercise.data.iterator().next()).getString("name")));
+            for (Object o : exercise.data) {
+                classes.add(req.getParameter(((JSONObject) o).getString("name")));
             }
             resp.setHeader("Content-Type", "application/json");
             JSONObject json = new JSONObject();
             String[] result = exercise.checkAnswer(classes);
             json.put("stdout", result[0]);
-            json.put("stderr", result[1]);
+            json.put("stderr", result[1].split("Exception in thread \"main\" ")[1].split(":")[0]);
             resp.getWriter().append(json.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private int generateRandom(int start, int end, ArrayList<Integer> excludeRows) {
+        Random rand = new Random();
+        int range = end - start + 1;
+
+        int random = rand.nextInt(range) + 1;
+        while (excludeRows.contains(random)) {
+            random = rand.nextInt(range) + 1;
+        }
+
+        return random;
     }
 }

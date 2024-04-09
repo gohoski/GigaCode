@@ -15,7 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <div class="columns">
+        <p>Exercise #${id}</p><div class="columns">
             <c:forEach var="tile" items='${data.iterator()}' varStatus="loop">
                 ${!loop.first ? '<div class="inherited"></div>' : ''}
                 <div class="column">

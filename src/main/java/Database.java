@@ -18,12 +18,12 @@ public class Database {
     private Database() throws SQLException {
         DriverManager.registerDriver(new JDBC());
         this.connection = DriverManager.getConnection(dbPath);
-        System.out.println(this.connection.createStatement().execute("CREATE TABLE IF NOT EXISTS exercises (" +
+        this.connection.createStatement().execute("CREATE TABLE IF NOT EXISTS exercises (" +
                 "id INTEGER NOT NULL PRIMARY KEY, " +
                 "type TEXT, " +
                 "classes JSON NOT NULL, " +
                 "test TEXT" +
-                ")"));
+                ")");
     }
 
     private Database(String dbPath) throws SQLException {
@@ -47,5 +47,11 @@ public class Database {
         stmt.setString(3, classes.toString());
         stmt.setString(4, test);
         return stmt.executeUpdate();
+    }
+
+    public int getExercisesCount() throws SQLException {
+        ResultSet rs = this.connection.createStatement().executeQuery("SELECT count(id) AS total FROM exercises");
+        rs.next();
+        return rs.getInt("total");
     }
 }

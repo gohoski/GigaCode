@@ -32,9 +32,7 @@ const objectMap = (obj, fn) =>
 
 async function checkResults(button) {
     button.classList.toggle("is-loading");
-    //button.setAttribute('disabled', '');
     let classes = objectMap(sessions, x => x.getValue());
-    console.log(classes);
     const { stdout, stderr } = await (await fetch('/exercise', {
         method: 'POST',
         headers: {
@@ -45,7 +43,11 @@ async function checkResults(button) {
             ...classes
         })
     })).json();
+
     const notification = document.getElementById("notification");
+    notification.innerHTML = "";
+    notification.classList.remove('is-danger', 'is-success');
+
     const elems = [];
     let elem;
 
@@ -56,10 +58,7 @@ async function checkResults(button) {
     elems.push(elem);
     elems.push(createElem('br'));
 
-    elem = createElem('h4', 'Ошибки:', ['title', 'is-4']);
-    elems.push(elem);
-
-    elem = createElem('pre', stderr);
+    elem = createElem('h4', `Ошибка <code>${stderr}</code>`, ['title', 'is-4'], false);
     elems.push(elem);
 
     elems.forEach(x => notification.append(x));
@@ -71,9 +70,12 @@ async function checkResults(button) {
     button.classList.toggle("is-loading");
 }
 
-function createElem(tag, text, classes = []) {
+function createElem(tag, text, classes = [], innerText = true) {
     const elem = document.createElement(tag);
-    elem.innerText = text;
+    if (innerText)
+        elem.innerText = text;
+    else
+        elem.innerHTML = text;
     classes.forEach(c => elem.classList.add(c));
     return elem;
 }
