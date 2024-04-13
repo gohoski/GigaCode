@@ -23,107 +23,6 @@ public class ExerciseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            /*database.setExercise(0,"scheme",new JSONArray("[{\n" +
-                    "    \"name\":\"Animal\",\n" +
-                    "    \"variables\":[\n" +
-                    "        {\n" +
-                    "            \"name\": \"name\",\n" +
-                    "            \"type\": \"String\",\n" +
-                    "            \"modifier\": \"protected\"\n" +
-                    "        },{\n" +
-                    "            \"name\": \"calories\",\n" +
-                    "            \"type\": \"int\",\n" +
-                    "            \"modifier\": \"protected\"\n" +
-                    "        }\n" +
-                    "    ],\n" +
-                    "    \"functions\":[\n" +
-                    "        {\n" +
-                    "            \"name\":\"eat\",\n" +
-                    "            \"modifier\":\"protected\",\n" +
-                    "            \"variables\":[\n" +
-                    "                {\n" +
-                    "                    \"name\": \"calories\",\n" +
-                    "                    \"type\": \"int\"\n" +
-                    "                }, {\n" +
-                    "                    \"name\": \"calories\",\n" +
-                    "                    \"type\": \"int\"\n" +
-                    "                },{\n" +
-                    "                    \"name\": \"calories\",\n" +
-                    "                    \"type\": \"int\"\n" +
-                    "                }\n" +
-                    "            ]\n" +
-                    "        }\n" +
-                    "    ]\n" +
-                    "},{\n" +
-                    "      \"name\":\"Cat\",\n" +
-                    "      \"variables\":[\n" +
-                    "          {\n" +
-                    "              \"name\": \"name\",\n" +
-                    "              \"type\": \"String\",\n" +
-                    "              \"modifier\": \"protected\"\n" +
-                    "          },{\n" +
-                    "              \"name\": \"calories\",\n" +
-                    "              \"type\": \"int\",\n" +
-                    "              \"modifier\": \"protected\"\n" +
-                    "          }\n" +
-                    "      ],\n" +
-                    "      \"functions\":[\n" +
-                    "          {\n" +
-                    "              \"name\":\"eat\",\n" +
-                    "              \"modifier\":\"protected\",\n" +
-                    "              \"variables\":[\n" +
-                    "                  {\n" +
-                    "                      \"name\": \"calories\",\n" +
-                    "                      \"type\": \"int\"\n" +
-                    "                  }, {\n" +
-                    "                      \"name\": \"calories\",\n" +
-                    "                      \"type\": \"int\"\n" +
-                    "                  },{\n" +
-                    "                      \"name\": \"calories\",\n" +
-                    "                      \"type\": \"int\"\n" +
-                    "                  }\n" +
-                    "              ]\n" +
-                    "          }\n" +
-                    "      ]\n" +
-                    "},{\n" +
-                    "       \"name\":\"Tiger\",\n" +
-                    "       \"variables\":[\n" +
-                    "           {\n" +
-                    "               \"name\": \"name\",\n" +
-                    "               \"type\": \"String\",\n" +
-                    "               \"modifier\": \"protected\"\n" +
-                    "           },{\n" +
-                    "               \"name\": \"calories\",\n" +
-                    "               \"type\": \"int\",\n" +
-                    "               \"modifier\": \"protected\"\n" +
-                    "           }\n" +
-                    "       ],\n" +
-                    "       \"functions\":[\n" +
-                    "           {\n" +
-                    "               \"name\":\"eat\",\n" +
-                    "               \"modifier\":\"protected\",\n" +
-                    "               \"variables\":[\n" +
-                    "                   {\n" +
-                    "                       \"name\": \"calories\",\n" +
-                    "                       \"type\": \"int\"\n" +
-                    "                   }, {\n" +
-                    "                       \"name\": \"calories\",\n" +
-                    "                       \"type\": \"int\"\n" +
-                    "                   },{\n" +
-                    "                       \"name\": \"calories\",\n" +
-                    "                       \"type\": \"int\"\n" +
-                    "                   }\n" +
-                    "               ]\n" +
-                    "           }\n" +
-                    "       ]\n" +
-                    "}]"), "public class Main {\n" +
-                    "    public static void main(String args[]) {\n" +
-                    "        new Cat().main(null);\n" +
-                    "        new Animal().main(null);\n" +
-                    "        new Tiger().main(null);\n" +
-                    "        System.out.print(\"SUCCESS:TRUE!\");\n" +
-                    "    }\n" +
-                    "}");*/
             int id = database.getExercisesCount() - 1;
             Exercise exercise = database.getExercise(id);
             req.setAttribute("type", exercise.type);
@@ -146,7 +45,11 @@ public class ExerciseServlet extends HttpServlet {
             JSONObject json = new JSONObject();
             String[] result = exercise.checkAnswer(classes);
             json.put("stdout", result[0]);
-            json.put("stderr", result[1].split("Exception in thread \"main\" ")[1].split(":")[0]);
+            String stderr = null;
+            try {
+                stderr = result[1].split("Exception in thread \"main\" ")[1].split(":")[0];
+            } catch(Exception ignored) {}
+            json.put("stderr", stderr);
             resp.getWriter().append(json.toString());
         } catch (SQLException e) {
             e.printStackTrace();

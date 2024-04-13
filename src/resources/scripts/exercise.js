@@ -49,23 +49,24 @@ async function checkResults(button) {
     notification.classList.remove('is-danger', 'is-success');
 
     const elems = [];
-    let elem;
+    //let elem;
 
-    elem = createElem('h4', 'Вывод программы:', ['title', 'is-4']);
-    elems.push(elem);
+    if (!stdout.includes('SUCCESS:TRUE!')) {
+        notification.classList.add("is-danger");
+        elems.push(createElem('h4', `Ошибка <code>${stderr}</code>, проверьте свой код`, ['title', 'is-4'], false));
+    } else {
+        notification.classList.add("is-success");
+        elems.push(createElem('h4', 'Вывод программы:', ['title', 'is-4']));
 
-    elem = createElem('pre', stdout.replace('SUCCESS:TRUE!', ''));
-    elems.push(elem);
-    elems.push(createElem('br'));
+        elems.push(createElem('pre', stdout.replace('SUCCESS:TRUE!', '')));
+        elems.push(createElem('br'));
 
-    elem = createElem('h4', `Ошибка <code>${stderr}</code>`, ['title', 'is-4'], false);
-    elems.push(elem);
+        let a = createElem('a', '<b>Следующее задание</b>', ['button','is-info'], false);
+        a.href = document.URL;
+        elems.push(a);
+    }
 
     elems.forEach(x => notification.append(x));
-    if (stdout.includes('SUCCESS:TRUE!'))
-        notification.classList.add("is-success");
-    else
-        notification.classList.add("is-danger");
     notification.style.display = 'block';
     button.classList.toggle("is-loading");
 }

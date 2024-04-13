@@ -34,8 +34,7 @@ public class Database {
     public Exercise getExercise(int id) throws SQLException {
         PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM \"exercises\" WHERE \"id\" = ?");
         stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
-        rs.next();
+        ResultSet rs = stmt.executeQuery(); rs.next();
         return new Exercise(id, rs.getString("type"), new JSONArray(rs.getString("classes")), rs.getString("test"));
     }
 
@@ -51,7 +50,6 @@ public class Database {
 
     public int getExercisesCount() throws SQLException {
         ResultSet rs = this.connection.createStatement().executeQuery("SELECT count(id) AS total FROM exercises");
-        rs.next();
-        return rs.getInt("total");
+        rs.next(); return rs.getInt("total");
     }
 }

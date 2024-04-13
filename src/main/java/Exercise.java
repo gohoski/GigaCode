@@ -44,6 +44,7 @@ public class Exercise {
 
         Scanner error = new Scanner(proc.getErrorStream()).useDelimiter("\\A");
         result[1] += error.hasNext() ? error.next() : "";
+
         return result;
     }
 }
