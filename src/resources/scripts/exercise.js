@@ -51,10 +51,7 @@ async function checkResults(button) {
     const elems = [];
     //let elem;
 
-    if (!stdout.includes('SUCCESS:TRUE!')) {
-        notification.classList.add("is-danger");
-        elems.push(createElem('h4', `Ошибка <code>${stderr}</code>, проверьте свой код`, ['title', 'is-4'], false));
-    } else {
+    if (stdout.includes('SUCCESS:TRUE!')) {
         notification.classList.add("is-success");
         elems.push(createElem('h4', 'Вывод программы:', ['title', 'is-4']));
 
@@ -62,8 +59,14 @@ async function checkResults(button) {
         elems.push(createElem('br'));
 
         let a = createElem('a', '<b>Следующее задание</b>', ['button','is-info'], false);
-        a.href = document.URL;
+        a.onclick = a => {
+            a.classList.add('is-loading');
+            window.location.reload();
+        };
         elems.push(a);
+    } else {
+        notification.classList.add("is-danger");
+        elems.push(createElem('h4', `Ошибка <code>${stderr}</code>, проверьте свой код`, ['title', 'is-4'], false));
     }
 
     elems.forEach(x => notification.append(x));

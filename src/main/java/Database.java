@@ -35,7 +35,8 @@ public class Database {
         PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM \"exercises\" WHERE \"id\" = ?");
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery(); rs.next();
-        return new Exercise(id, rs.getString("type"), new JSONArray(rs.getString("classes")), rs.getString("test"));
+        return new Exercise(id, rs.getString("type"), new JSONArray(rs.getString("classes")), rs.getString("test"),
+                new String[]{"Runtime", "System"});
     }
 
     public int setExercise(int id, String type, JSONArray classes, String test) throws SQLException {

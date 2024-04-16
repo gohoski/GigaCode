@@ -1,8 +1,11 @@
+import com.thoughtworks.qdox.JavaProjectBuilder;
+import com.thoughtworks.qdox.model.JavaClass;
 import org.json.JSONArray;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class Exercise {
@@ -10,18 +13,31 @@ public class Exercise {
     public String type;
     public JSONArray data;
     public String test;
+    private static Runtime runtime;
+    private static String[] allowedClasses;
+    JavaProjectBuilder builder = new JavaProjectBuilder();
 
-    public Exercise(int id, String type, JSONArray data, String test) {
+    public Exercise(int id, String type, JSONArray data, String test, String[] allowedClasses) {
         this.id = id;
         this.type = type;
         this.data = data;
         this.test = test;
+        Exercise.allowedClasses = allowedClasses;
+        runtime = Runtime.getRuntime();
     }
 
     public String[] checkAnswer(ArrayList<String> classes) throws IOException {
         for (int i = 0; i < classes.size(); i++) {
-            writeToFile("./temp/" + data.getJSONObject(i).getString("name"),
-                    classes.get(i));
+            String currentClass = classes.get(i);
+            writeToFile("./temp/" + data.getJSONObject(i).getString("name"), currentClass);
+            for (String allowedClass: allowedClasses) {
+                if (currentClass.contains(allowedClass + ".") ||
+                currentClass.contains(allowedClass + " ") ||
+                currentClass.contains(allowedClass + ";")) {
+
+                }
+            }
+            JavaClass javaClass = builder.addSource(new StringReader(currentClass)).getClasses().get(0);
         }
         writeToFile("./temp/Main", this.test);
         execCmd("javac ./temp/*.java");
@@ -37,7 +53,7 @@ public class Exercise {
     private static String[] execCmd(String cmd) throws IOException {
         String[] result = new String[2];
         Arrays.fill(result, "");
-        Process proc = Runtime.getRuntime().exec(cmd);
+        Process proc = runtime.exec(cmd);
 
         Scanner input = new Scanner(proc.getInputStream()).useDelimiter("\\A");
         result[0] += input.hasNext() ? input.next() : "";
