@@ -33,7 +33,7 @@ const objectMap = (obj, fn) =>
 async function checkResults(button) {
     button.classList.toggle("is-loading");
     let classes = objectMap(sessions, x => x.getValue());
-    const { stdout, stderr } = await (await fetch('/exercise', {
+    const json = await (await fetch('/exercise', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -51,22 +51,28 @@ async function checkResults(button) {
     const elems = [];
     //let elem;
 
-    if (stdout.includes('SUCCESS:TRUE!')) {
-        notification.classList.add("is-success");
-        elems.push(createElem('h4', 'Вывод программы:', ['title', 'is-4']));
+    if (json.success) {
+        if (json.stdout.includes('SUCCESS:TRUE!')) {
+            notification.classList.add("is-success");
+            elems.push(createElem('h4', 'Вывод программы:', ['title', 'is-4']));
 
-        elems.push(createElem('pre', stdout.replace('SUCCESS:TRUE!', '')));
-        elems.push(createElem('br'));
+            elems.push(createElem('pre', json.stdout.replace('SUCCESS:TRUE!', '')));
+            elems.push(createElem('br'));
 
-        let a = createElem('a', '<b>Следующее задание</b>', ['button','is-info'], false);
-        a.onclick = a => {
-            a.classList.add('is-loading');
-            window.location.reload();
-        };
-        elems.push(a);
+            let a = createElem('a', '<b>Следующее задание</b>', ['button','is-info'], false);
+            a.onclick = () => {
+                a.classList.add('is-loading');
+                window.location.reload();
+            };
+            elems.push(a);
+        } else {
+            notification.classList.add("is-danger");
+            elems.push(createElem('h4', `Ошибка <code>${json.stderr}</code>, проверьте свой код`, ['title', 'is-4'], false));
+        }
     } else {
         notification.classList.add("is-danger");
-        elems.push(createElem('h4', `Ошибка <code>${stderr}</code>, проверьте свой код`, ['title', 'is-4'], false));
+        elems.push(createElem('h4', json.errorMessage, ['title', 'is-4']));
+        // elems.push(createElem('pre', json.errorTrace.join("\n")));
     }
 
     elems.forEach(x => notification.append(x));

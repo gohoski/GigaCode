@@ -1,11 +1,14 @@
+import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
+import com.thoughtworks.qdox.model.JavaSource;
 import org.json.JSONArray;
+import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
 public class Exercise {
@@ -14,34 +17,52 @@ public class Exercise {
     public JSONArray data;
     public String test;
     private static Runtime runtime;
-    private static String[] allowedClasses;
+    private static String[] illegalClasses;
     JavaProjectBuilder builder = new JavaProjectBuilder();
 
-    public Exercise(int id, String type, JSONArray data, String test, String[] allowedClasses) {
+    public Exercise(int id, String type, JSONArray data, String test, String[] illegalClasses) {
         this.id = id;
         this.type = type;
         this.data = data;
         this.test = test;
-        Exercise.allowedClasses = allowedClasses;
+        Exercise.illegalClasses = illegalClasses;
         runtime = Runtime.getRuntime();
     }
 
-    public String[] checkAnswer(ArrayList<String> classes) throws IOException {
+    public String[] checkAnswer(ArrayList<String> classes) throws Exception {
+        //System.out.println(classes);
+        String tempId = NanoIdUtils.randomNanoId();
+        File dir = new File("./temp/" + tempId);
+        dir.mkdirs();
         for (int i = 0; i < classes.size(); i++) {
             String currentClass = classes.get(i);
-            writeToFile("./temp/" + data.getJSONObject(i).getString("name"), currentClass);
-            for (String allowedClass: allowedClasses) {
-                if (currentClass.contains(allowedClass + ".") ||
-                currentClass.contains(allowedClass + " ") ||
-                currentClass.contains(allowedClass + ";")) {
-
+            writeToFile("./temp/" + tempId + "/" + data.getJSONObject(i).getString("name"), currentClass);
+            JavaSource javaSource = builder.addSource(new StringReader(currentClass));
+            List<String> imports = javaSource.getImports();
+            for (String illegalClass: illegalClasses) {
+                String[] illegalClassUses = new String[]{
+                        illegalClass + ".",
+                        illegalClass + ";",
+                        illegalClass + "(",
+                        illegalClass + " ",
+                        illegalClass + "="
+                };
+                if (stringContains(currentClass, illegalClassUses) ||
+                    stringContains(imports.toString(), illegalClassUses)) {
+                    FileUtils.deleteDirectory(dir);
+                    throw new Exception("Недопустимые классы");
                 }
             }
-            JavaClass javaClass = builder.addSource(new StringReader(currentClass)).getClasses().get(0);
         }
-        writeToFile("./temp/Main", this.test);
-        execCmd("javac ./temp/*.java");
-        return execCmd("java -cp ./temp/ Main");
+        writeToFile("./temp/" + tempId + "/Main", this.test);
+        String[] compilationResult = execCmd("javac ./temp/" + tempId + "/*.java");
+        if (compilationResult[1].length() > 1) {
+            FileUtils.deleteDirectory(dir);
+            return compilationResult;
+        }
+        String[] result = execCmd("java -cp ./temp/" + tempId + "/ Main");
+        FileUtils.deleteDirectory(dir);
+        return result;
     }
 
     private static void writeToFile(String path, String content) throws FileNotFoundException {
@@ -62,5 +83,12 @@ public class Exercise {
         result[1] += error.hasNext() ? error.next() : "";
 
         return result;
+    }
+
+    private static boolean stringContains(String inputStr, String[] items) {
+        return Arrays.stream(items).anyMatch(inputStr::contains);
+    }
+    private static boolean stringContains(String inputStr, List<String> items) {
+        return items.stream().anyMatch(inputStr::contains);
     }
 }

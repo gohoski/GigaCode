@@ -36,7 +36,7 @@ public class Database {
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery(); rs.next();
         return new Exercise(id, rs.getString("type"), new JSONArray(rs.getString("classes")), rs.getString("test"),
-                new String[]{"Runtime", "System"});
+                new String[]{"Runtime", "ProcessBuilder", "Process"});
     }
 
     public int setExercise(int id, String type, JSONArray classes, String test) throws SQLException {

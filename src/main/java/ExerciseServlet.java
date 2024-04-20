@@ -35,15 +35,16 @@ public class ExerciseServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Content-Type", "application/json");
         try {
             Exercise exercise = database.getExercise(Integer.parseInt(req.getParameter("id")));
             ArrayList<String> classes = new ArrayList<>();
             for (Object o : exercise.data) {
                 classes.add(req.getParameter(((JSONObject) o).getString("name")));
             }
-            resp.setHeader("Content-Type", "application/json");
             JSONObject json = new JSONObject();
             String[] result = exercise.checkAnswer(classes);
+            json.put("success", true);
             json.put("stdout", result[0]);
             String stderr = null;
             try {
@@ -51,8 +52,12 @@ public class ExerciseServlet extends HttpServlet {
             } catch(Exception ignored) {}
             json.put("stderr", stderr);
             resp.getWriter().append(json.toString());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            JSONObject json = new JSONObject();
+            json.put("success", false);
+            json.put("errorMessage", e.getLocalizedMessage());
+            json.put("errorTrace", e.getStackTrace());
+            resp.getWriter().append(json.toString());
         }
     }
 
