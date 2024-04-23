@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 @WebServlet("/exercise")
@@ -46,10 +47,14 @@ public class ExerciseServlet extends HttpServlet {
             String[] result = exercise.checkAnswer(classes);
             json.put("success", true);
             json.put("stdout", result[0]);
-            String stderr = null;
+            String stderr = "";
             try {
                 stderr = result[1].split("Exception in thread \"main\" ")[1].split(":")[0];
-            } catch(Exception ignored) {}
+            } catch(Exception ignored) {
+                try {
+                    stderr = result[1].split("Error: ")[1].split("\n")[0];
+                } catch(Exception ignored1) {}
+            }
             json.put("stderr", stderr);
             resp.getWriter().append(json.toString());
         } catch (Exception e) {

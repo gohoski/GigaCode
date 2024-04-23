@@ -67,12 +67,12 @@ async function checkResults(button) {
             elems.push(a);
         } else {
             notification.classList.add("is-danger");
-            elems.push(createElem('h4', `Ошибка <code>${json.stderr}</code>, проверьте свой код`, ['title', 'is-4'], false));
+            elems.push(createElem('h4', `Ошибка${json.stderr.length ? ` <code>${json.stderr}</code>` : ""}, проверьте свой код`, ['title', 'is-4'], false));
         }
     } else {
         notification.classList.add("is-danger");
         elems.push(createElem('h4', json.errorMessage, ['title', 'is-4']));
-        // elems.push(createElem('pre', json.errorTrace.join("\n")));
+        elems.push(createElem('pre', json.errorTrace.join("\n")));
     }
 
     elems.forEach(x => notification.append(x));

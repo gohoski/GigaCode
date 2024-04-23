@@ -56,6 +56,7 @@ public class Exercise {
         }
         writeToFile("./temp/" + tempId + "/Main", this.test);
         String[] compilationResult = execCmd("javac ./temp/" + tempId + "/*.java");
+        System.out.println(Arrays.toString(compilationResult));
         if (compilationResult[1].length() > 1) {
             FileUtils.deleteDirectory(dir);
             return compilationResult;
