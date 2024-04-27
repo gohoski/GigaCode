@@ -67,7 +67,7 @@ async function checkResults(button) {
             elems.push(a);
         } else {
             notification.classList.add("is-danger");
-            elems.push(createElem('h4', `Ошибка${json.stderr.length ? ` <code>${json.stderr}</code>` : ""}, проверьте свой код`, ['title', 'is-4'], false));
+            elems.push(createElem('h4', `Произошла ошибка${json.stderr.length ? ` <code>${json.stderr}</code>` : ""}, проверьте свой код`, ['title', 'is-4'], false));
         }
     } else {
         notification.classList.add("is-danger");

@@ -70,3 +70,7 @@ li {
 pre {
     white-space: pre-wrap;
 }
+
+#idInput {
+    width: 10vw;
+}
