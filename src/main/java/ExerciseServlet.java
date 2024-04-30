@@ -3,11 +3,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 @WebServlet("/exercise")
@@ -31,7 +31,7 @@ public class ExerciseServlet extends HttpServlet {
             req.setAttribute("id", id);
             req.getRequestDispatcher("/webapp/exercise.jsp").forward(req, resp);
         } catch (SQLException e) {
-            e.printStackTrace();
+            catchException(e, resp);
         }
     }
 
@@ -58,11 +58,22 @@ public class ExerciseServlet extends HttpServlet {
             json.put("stderr", stderr);
             resp.getWriter().append(json.toString());
         } catch (Exception e) {
+            catchException(e, resp);
+        }
+    }
+
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            String id = req.getParameter("id");
+            database.setExercise(id.isEmpty() ? database.getExercisesCount() : Integer.parseInt(id),
+                    req.getParameter("type"),
+                    new JSONArray(req.getParameter("classes")),
+                    req.getParameter("test"));
             JSONObject json = new JSONObject();
-            json.put("success", false);
-            json.put("errorMessage", e.getLocalizedMessage());
-            json.put("errorTrace", e.getStackTrace());
+            json.put("success", true);
             resp.getWriter().append(json.toString());
+        } catch (SQLException e) {
+            catchException(e, resp);
         }
     }
 
@@ -76,5 +87,13 @@ public class ExerciseServlet extends HttpServlet {
         }
 
         return random;
+    }
+
+    private void catchException(Exception e, HttpServletResponse resp) throws IOException {
+        JSONObject json = new JSONObject();
+        json.put("success", false);
+        json.put("errorMessage", e.getLocalizedMessage());
+        json.put("errorTrace", e.getStackTrace());
+        resp.getWriter().append(json.toString());
     }
 }
