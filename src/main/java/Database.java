@@ -2,6 +2,7 @@ import org.json.JSONArray;
 import org.sqlite.JDBC;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
     private static String dbPath = "jdbc:sqlite:gigacode.db";
@@ -52,5 +53,14 @@ public class Database {
     public int getExercisesCount() throws SQLException {
         ResultSet rs = this.connection.createStatement().executeQuery("SELECT count(id) AS total FROM exercises");
         rs.next(); return rs.getInt("total");
+    }
+
+    public ArrayList<Exercise> getExercises() throws SQLException {
+        ResultSet rs = this.connection.createStatement().executeQuery("SELECT id, type, classes, test FROM exercises");
+        ArrayList<Exercise> exercises = new ArrayList<>();
+        while (rs.next()) {
+            exercises.add(new Exercise(rs.getInt("id"), rs.getString("type"), new JSONArray(rs.getString("classes")), rs.getString("test"), new String[]{"Runtime", "ProcessBuilder", "Process", "Properties"}));
+        }
+        return exercises;
     }
 }

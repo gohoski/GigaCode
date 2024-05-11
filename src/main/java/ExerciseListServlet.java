@@ -20,6 +20,11 @@ public class ExerciseListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            req.setAttribute("exercises", database.getExercises());
+            req.getRequestDispatcher("/webapp/exerciseList.jsp").forward(req, resp);
+        } catch (SQLException ignored) {
 
+        }
     }
 }
