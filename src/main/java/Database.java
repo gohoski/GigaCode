@@ -58,9 +58,8 @@ public class Database {
     public ArrayList<Exercise> getExercises() throws SQLException {
         ResultSet rs = this.connection.createStatement().executeQuery("SELECT id, type, classes, test FROM exercises");
         ArrayList<Exercise> exercises = new ArrayList<>();
-        while (rs.next()) {
+        while (rs.next())
             exercises.add(new Exercise(rs.getInt("id"), rs.getString("type"), new JSONArray(rs.getString("classes")), rs.getString("test"), new String[]{"Runtime", "ProcessBuilder", "Process", "Properties"}));
-        }
         return exercises;
     }
 }

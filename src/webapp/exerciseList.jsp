@@ -9,11 +9,39 @@
         <link rel="stylesheet" href="/resources/styles/style.css" type="text/css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,Wwght@0,100..800;1,100..800&display=swap" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body>
-        <c:forEach var="exercise" items='${exercises}'><div class="box" style="transform: scale(0.5);"><h1></h1><div class="columns">
-             ${exercise}</c:forEach>
+    <body style="/*transform: scale(0.7);*/ padding: 0px">
+        <c:forEach var="ex" items='${data.iterator()}' varStatus="id"><div class="box"><div style="height: 100px; line-height: 100px; text-align: center;"><span>Exercise #${id.index}</span><button class="button is-success" data="chooseBtn" data-id="${id}"><b>Выбрать</b></button></div><div class="columns">
+            <c:forEach var="tile" items='${ex.iterator()}' varStatus="loop">
+                ${!loop.first ? '<div class="inherited"></div>' : ''}
+                <div class="column">
+                    <article class="box notification">
+                        <p class="title">${tile.get("name")}</p>
+                        <div class="content">
+                            <c:forEach var="var" items='${tile.get("variables").toList()}'>
+                                <div>
+                                    <span class="modifier <c:out value='${var.get("modifier")}'/>"></span>
+                                    <c:out value='${var.get("name")}'/>:
+                                    <i><c:out value='${var.get("type")}'/></i>
+                                </div>
+                            </c:forEach>
+                            <hr/>
+                            <c:forEach var="func" items='${tile.get("functions").toList()}'>
+                                <div>
+                                    <span class="modifier <c:out value='${func.get("modifier")}'/>"></span>
+                                    <c:out value='${func.get("name")}'/> (<c:forEach var="var" items="${func.get('variables')}" varStatus="loop"><c:out value="${var.get('name')}" />:
+                                        <i><c:out value="${var.get('type')}" /></i><%--
+                                        --%>${!loop.last ? ', ' : ''}</c:forEach>)<%--
+                                --%></div>
+                            </c:forEach>
+                        </div>
+                    </article>
+                </div>
+            </c:forEach>
+        </div>
+        <div id="notification" class="notification" style="display: none;">
+        </div></div></c:forEach>
     </body>
 </html>
