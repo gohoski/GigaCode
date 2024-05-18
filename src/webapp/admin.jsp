@@ -19,7 +19,7 @@
             <li class="is-active"><a>Задачи</a></li>
           </ul>
         </div>
-        <input class="input is-rounded" type="number" placeholder="Id" id="idInput" />
+        <span class="control"><input class="input is-rounded" type="number" placeholder="Id" id="idInput" /></span>
         <button id="exList" class="button is-success is-dark">Список задач</button>
     </body>
 </html>
