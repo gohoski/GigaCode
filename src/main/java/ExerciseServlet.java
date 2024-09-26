@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 @WebServlet("/exercise")
@@ -35,7 +37,7 @@ public class ExerciseServlet extends HttpServlet {
         }
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    /*protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setHeader("Content-Type", "application/json");
         try {
             Exercise exercise = database.getExercise(Integer.parseInt(req.getParameter("id")));
@@ -60,10 +62,11 @@ public class ExerciseServlet extends HttpServlet {
         } catch (Exception e) {
             catchException(e, resp);
         }
-    }
+    }*/
 
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
+            System.out.println(req.getAttribute("type") + req.getParameter("type"));
             String id = req.getParameter("id");
             database.setExercise(id.isEmpty() ? database.getExercisesCount() : Integer.parseInt(id),
                     req.getParameter("type"),
