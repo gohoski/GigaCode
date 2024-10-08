@@ -8,9 +8,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
+import java.util.Scanner;
 
 @WebServlet("/exercise")
 public class ExerciseServlet extends HttpServlet {
@@ -37,7 +36,7 @@ public class ExerciseServlet extends HttpServlet {
         }
     }
 
-    /*protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setHeader("Content-Type", "application/json");
         try {
             Exercise exercise = database.getExercise(Integer.parseInt(req.getParameter("id")));
@@ -62,19 +61,23 @@ public class ExerciseServlet extends HttpServlet {
         } catch (Exception e) {
             catchException(e, resp);
         }
-    }*/
+    }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
-            System.out.println(req.getAttribute("type") + req.getParameter("type"));
-            String id = req.getParameter("id");
-            database.setExercise(id.isEmpty() ? database.getExercisesCount() : Integer.parseInt(id),
-                    req.getParameter("type"),
-                    new JSONArray(req.getParameter("classes")),
-                    req.getParameter("test"));
-            JSONObject json = new JSONObject();
-            json.put("success", true);
-            resp.getWriter().append(json.toString());
+            Scanner scanner = new Scanner(req.getInputStream(), "UTF-8");
+            String jsonData = scanner.useDelimiter("\\A").next();
+            scanner.close();
+            JSONObject json = new JSONObject(jsonData);
+            System.out.println(json.getString("type"));
+            int id = json.getInt("id");
+            database.setExercise(id == -1 ? database.getExercisesCount() : id,
+                    json.getString("type"),
+                    json.getJSONArray("classes"),
+                    json.getString("test"));
+            JSONObject result = new JSONObject();
+            result.put("success", true);
+            resp.getWriter().append(result.toString());
         } catch (SQLException e) {
             catchException(e, resp);
         }

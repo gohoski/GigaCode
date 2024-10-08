@@ -52,7 +52,7 @@ public class Database {
 
     public int getExercisesCount() throws SQLException {
         ResultSet rs = this.connection.createStatement().executeQuery("SELECT count(id) AS total FROM exercises");
-        rs.next(); return rs.getInt("total");
+        rs.next();return rs.getInt("total");
     }
 
     public ArrayList<Exercise> getExercises() throws SQLException {
