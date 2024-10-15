@@ -39,6 +39,7 @@ public class ExerciseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setHeader("Content-Type", "application/json");
         try {
+            System.out.println(req.getParameter("id"));
             Exercise exercise = database.getExercise(Integer.parseInt(req.getParameter("id")));
             ArrayList<String> classes = new ArrayList<>();
             for (Object o : exercise.data) {

@@ -39,7 +39,7 @@ async function checkResults(button) {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: new URLSearchParams({
-            'id': '0',
+            'id': document.getElementById('id').innerText,
             ...classes
         })
     })).json();
