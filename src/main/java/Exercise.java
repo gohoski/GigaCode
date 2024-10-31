@@ -4,6 +4,7 @@ import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaSource;
 import org.json.JSONArray;
 import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -64,6 +65,11 @@ public class Exercise {
         String[] result = execCmd("java -cp ./temp/" + tempId + "/ Main");
         FileUtils.deleteDirectory(dir);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return new JSONObject(this).toString();
     }
 
     private static void writeToFile(String path, String content) throws FileNotFoundException {

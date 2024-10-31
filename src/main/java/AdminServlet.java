@@ -13,4 +13,6 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/webapp/admin.jsp").forward(req, resp);
     }
+
+
 }
