@@ -69,7 +69,12 @@ public class Exercise {
 
     @Override
     public String toString() {
-        return new JSONObject(this).toString();
+        JSONObject json = new JSONObject();
+        json.put("id", id);
+        json.put("type", type);
+        json.put("data", data);
+        json.put("test", test);
+        return json.toString(4);
     }
 
     private static void writeToFile(String path, String content) throws FileNotFoundException {

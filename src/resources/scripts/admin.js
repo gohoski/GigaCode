@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     let popup = null,
         onchangeTimer = null;
+    const idInput = document.getElementById('idInput');
 
     document.getElementById("exList").onclick = () => {
         popup = window.open("/exercise/list", "exerciseList", "width=800,height=576");
@@ -10,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
             clearInterval(check);
             popup.document.querySelectorAll('button[data="chooseBtn"]').forEach(i => {
                 i.onclick = () => {
-                    const idInput = document.getElementById('idInput');
                     idInput.value = i.getAttribute('data-id');
                     idInput.dispatchEvent(new Event('change'));
                     idInput.parentElement.classList.remove('is-loading');
@@ -22,8 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('idInput').onchange = e => {
         clearTimeout(onchangeTimer);
-        onchangeTimer = setTimeout(() => {
+        e.target.parentElement.classList.remove('is-loading');
+        onchangeTimer = setTimeout(async () => {
             e.target.parentElement.classList.add('is-loading');
+            console.log(await (await fetch('/exercise?id=' + idInput.value)).json());
+            e.target.parentElement.classList.remove('is-loading');
         }, 1000)
     };
 });
