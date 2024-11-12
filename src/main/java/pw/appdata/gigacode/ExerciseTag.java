@@ -1,3 +1,5 @@
+package pw.appdata.gigacode;
+
 import jakarta.servlet.jsp.tagext.*;
 import jakarta.servlet.jsp.*;
 import org.json.JSONArray;

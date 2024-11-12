@@ -1,9 +1,10 @@
+package pw.appdata.gigacode;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,6 +14,34 @@ import java.util.Scanner;
 
 @WebServlet("/exercise")
 public class ExerciseServlet extends HttpServlet {
+    final String jsp = "<div class=\"columns\">\n" +
+            "            <c:forEach var=\"tile\" items='${data.iterator()}' varStatus=\"loop\">\n" +
+            "                ${!loop.first ? '<div class=\"inherited\"></div>' : ''}\n" +
+            "                <div class=\"column\">\n" +
+            "                    <article class=\"box notification\">\n" +
+            "                        <p class=\"title\">${tile.get(\"name\")}</p>\n" +
+            "                        <div class=\"content\">\n" +
+            "                            <c:forEach var=\"var\" items='${tile.get(\"variables\").toList()}'>\n" +
+            "                                <div>\n" +
+            "                                    <span class=\"modifier <c:out value='${var.get(\"modifier\")}'/>\"></span>\n" +
+            "                                    <c:out value='${var.get(\"name\")}'/>:\n" +
+            "                                    <i><c:out value='${var.get(\"type\")}'/></i>\n" +
+            "                                </div>\n" +
+            "                            </c:forEach>\n" +
+            "                            <hr/>\n" +
+            "                            <c:forEach var=\"func\" items='${tile.get(\"functions\").toList()}'>\n" +
+            "                                <div>\n" +
+            "                                    <span class=\"modifier <c:out value='${func.get(\"modifier\")}'/>\"></span>\n" +
+            "                                    <c:out value='${func.get(\"name\")}'/> (<c:forEach var=\"var\" items=\"${func.get('variables')}\" varStatus=\"loop\"><c:out value=\"${var.get('name')}\" />:\n" +
+            "                                        <i><c:out value=\"${var.get('type')}\" /></i><%--\n" +
+            "                                        --%>${!loop.last ? ', ' : ''}</c:forEach>)<%--\n" +
+            "                                --%></div>\n" +
+            "                            </c:forEach>\n" +
+            "                        </div>\n" +
+            "                    </article>\n" +
+            "                </div>\n" +
+            "            </c:forEach>\n" +
+            "        </div>";
     Database database = null;
     {
         try {
@@ -25,17 +54,12 @@ public class ExerciseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            if (req.getParameter("id") != null) {
-                int id = Integer.parseInt(req.getParameter("id"));
-                resp.getWriter().append(database.getExercise(id).toString());
-            } else {
                 int id = database.getExercisesCount() - 1;
                 Exercise exercise = database.getExercise(id);
                 req.setAttribute("type", exercise.type);
                 req.setAttribute("data", exercise.data);
                 req.setAttribute("id", id);
-                req.getRequestDispatcher("/webapp/exercise.jsp").forward(req, resp);
-            }
+                req.getRequestDispatcher(req.getParameter("id") != null ? "/webapp/exerciseEmbed.jsp" : "/webapp/exercise.jsp").forward(req, resp);
         } catch (SQLException e) {
             catchException(e, resp);
         }

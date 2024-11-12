@@ -1,3 +1,5 @@
+package pw.appdata.gigacode;
+
 import org.json.JSONArray;
 import org.sqlite.JDBC;
 

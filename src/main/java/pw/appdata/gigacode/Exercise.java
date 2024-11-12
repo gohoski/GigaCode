@@ -1,6 +1,7 @@
+package pw.appdata.gigacode;
+
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.thoughtworks.qdox.JavaProjectBuilder;
-import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaSource;
 import org.json.JSONArray;
 import org.apache.commons.io.FileUtils;
@@ -75,6 +76,37 @@ public class Exercise {
         json.put("data", data);
         json.put("test", test);
         return json.toString(4);
+    }
+
+    public String jsp() {
+        return "<div class=\"columns\">\n" +
+                "            <c:forEach var=\"tile\" items='${data.iterator()}' varStatus=\"loop\">\n" +
+                "                ${!loop.first ? '<div class=\"inherited\"></div>' : ''}\n" +
+                "                <div class=\"column\">\n" +
+                "                    <article class=\"box notification\">\n" +
+                "                        <p class=\"title\">${tile.get(\"name\")}</p>\n" +
+                "                        <div class=\"content\">\n" +
+                "                            <c:forEach var=\"var\" items='${tile.get(\"variables\").toList()}'>\n" +
+                "                                <div>\n" +
+                "                                    <span class=\"modifier <c:out value='${var.get(\"modifier\")}'/>\"></span>\n" +
+                "                                    <c:out value='${var.get(\"name\")}'/>:\n" +
+                "                                    <i><c:out value='${var.get(\"type\")}'/></i>\n" +
+                "                                </div>\n" +
+                "                            </c:forEach>\n" +
+                "                            <hr/>\n" +
+                "                            <c:forEach var=\"func\" items='${tile.get(\"functions\").toList()}'>\n" +
+                "                                <div>\n" +
+                "                                    <span class=\"modifier <c:out value='${func.get(\"modifier\")}'/>\"></span>\n" +
+                "                                    <c:out value='${func.get(\"name\")}'/> (<c:forEach var=\"var\" items=\"${func.get('variables')}\" varStatus=\"loop\"><c:out value=\"${var.get('name')}\" />:\n" +
+                "                                        <i><c:out value=\"${var.get('type')}\" /></i><%--\n" +
+                "                                        --%>${!loop.last ? ', ' : ''}</c:forEach>)<%--\n" +
+                "                                --%></div>\n" +
+                "                            </c:forEach>\n" +
+                "                        </div>\n" +
+                "                    </article>\n" +
+                "                </div>\n" +
+                "            </c:forEach>\n" +
+                "        </div>";
     }
 
     private static void writeToFile(String path, String content) throws FileNotFoundException {

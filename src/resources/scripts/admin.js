@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.target.parentElement.classList.remove('is-loading');
         onchangeTimer = setTimeout(async () => {
             e.target.parentElement.classList.add('is-loading');
-            console.log(await (await fetch('/exercise?id=' + idInput.value)).json());
+            document.getElementById('currentEx').innerHTML = await (await fetch('/exercise?id=' + idInput.value)).text();
             e.target.parentElement.classList.remove('is-loading');
         }, 1000)
     };

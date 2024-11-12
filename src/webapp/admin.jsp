@@ -21,5 +21,6 @@
         </div>
         <span class="control"><input class="input is-rounded" type="number" placeholder="Id" id="idInput" /></span>
         <button id="exList" class="button is-success is-dark">Список задач</button>
+        <div id="currentEx"></div>
     </body>
 </html>

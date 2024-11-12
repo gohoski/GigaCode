@@ -4,12 +4,32 @@
                             http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
         version="2.1">
     <tlib-version>1.0</tlib-version>
-    <short-name>ex</short-name>
-    <uri>/webapp/custom.tld</uri>
+    <short-name>e</short-name>
+    <uri>pw.appdata.gigacode.exercise</uri>
 
     <tag>
         <name>exercise</name>
-        <tag-class>.ExerciseTag</tag-class>
+        <tag-class>pw.appdata.gigacode.ExerciseTag</tag-class>
         <body-content>empty</body-content>
+        <attribute>
+            <name>data</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>test</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
 </taglib>
