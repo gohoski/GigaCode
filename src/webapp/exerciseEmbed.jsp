@@ -4,12 +4,12 @@
         ${!loop.first ? '<div class="inherited"></div>' : ''}
         <div class="column">
             <article class="box notification">
-                <p class="title">${tile.get("name")}</p>
+                <input class="title input" type="text" value="${tile.get("name")}"/>
                 <div class="content">
                     <c:forEach var="var" items='${tile.get("variables").toList()}'>
                         <div>
                             <span class="modifier <c:out value='${var.get("modifier")}'/>"></span>
-                            <c:out value='${var.get("name")}'/>:
+                            <input class="input" type="text" value="<c:out value='${var.get("name")}'/>"/>:
                             <i><c:out value='${var.get("type")}'/></i>
                         </div>
                     </c:forEach>
@@ -18,7 +18,7 @@
                         <div>
                             <span class="modifier <c:out value='${func.get("modifier")}'/>"></span>
                             <c:out value='${func.get("name")}'/> (<c:forEach var="var" items="${func.get('variables')}" varStatus="loop"><c:out value="${var.get('name')}" />:
-                                <i><c:out value="${var.get('type')}" /></i><%--
+                                <i><input class="input" type="text" value="<c:out value='${var.get("type")}'/>"/></i><%--
                                 --%>${!loop.last ? ', ' : ''}</c:forEach>)<%--
                         --%></div>
                     </c:forEach>

@@ -78,7 +78,7 @@ public class Exercise {
         return json.toString(4);
     }
 
-    public String jsp() {
+    /*public String jsp() {
         return "<div class=\"columns\">\n" +
                 "            <c:forEach var=\"tile\" items='${data.iterator()}' varStatus=\"loop\">\n" +
                 "                ${!loop.first ? '<div class=\"inherited\"></div>' : ''}\n" +
@@ -107,7 +107,7 @@ public class Exercise {
                 "                </div>\n" +
                 "            </c:forEach>\n" +
                 "        </div>";
-    }
+    }*/
 
     private static void writeToFile(String path, String content) throws FileNotFoundException {
         PrintWriter printWriter = new PrintWriter(new FileOutputStream(path + ".java", false));
