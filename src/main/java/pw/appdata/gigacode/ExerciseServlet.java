@@ -54,12 +54,16 @@ public class ExerciseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-                int id = database.getExercisesCount() - 1;
-                Exercise exercise = database.getExercise(id);
-                req.setAttribute("type", exercise.type);
-                req.setAttribute("data", exercise.data);
-                req.setAttribute("id", id);
-                req.getRequestDispatcher(req.getParameter("id") != null ? "/webapp/exerciseEmbed.jsp" : "/webapp/exercise.jsp").forward(req, resp);
+            int id;
+            if (req.getParameter("id") == null)
+                id = database.getExercisesCount() - 1;
+            else
+                id = Integer.parseInt(req.getParameter("id"));
+            Exercise exercise = database.getExercise(id);
+            req.setAttribute("type", exercise.type);
+            req.setAttribute("data", exercise.data);
+            req.setAttribute("id", id);
+            req.getRequestDispatcher(req.getParameter("id") != null ? "/webapp/exerciseEmbed.jsp" : "/webapp/exercise.jsp").forward(req, resp);
         } catch (SQLException e) {
             catchException(e, resp);
         }

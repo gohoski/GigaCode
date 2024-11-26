@@ -11,6 +11,12 @@
         <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
         <script src="/resources/scripts/admin.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+        input {
+            width: fit-content;
+            min-width: 120px;
+        }
+        </style>
     </head>
     <body>
         <p>Админ-меню</p>
@@ -22,5 +28,12 @@
         <span class="control"><input class="input is-rounded" type="number" placeholder="Id" id="idInput" /></span>
         <button id="exList" class="button is-success is-dark">Список задач</button>
         <div id="currentEx" ></div>
+        <script>
+        function fixInput() {
+            document.querySelectorAll('input').forEach(i => {
+
+            });
+        }
+        </script>
     </body>
 </html>
