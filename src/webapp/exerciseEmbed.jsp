@@ -9,7 +9,7 @@
                     <c:forEach var="var" items='${tile.get("variables").toList()}'>
                         <div>
                             <span class="modifier <c:out value='${var.get("modifier")}'/>"></span>
-                            <input class="input" type="text" value="<c:out value='${var.get("name")}'/>"/>:
+                            <input class="input" type="text" value="<c:out value='${var.get("name")}'/>" style="width: 10ch;"/>:
                             <i><c:out value='${var.get("type")}'/></i>
                         </div>
                     </c:forEach>
