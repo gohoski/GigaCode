@@ -43,7 +43,7 @@ public class Database {
     }
 
     public int setExercise(int id, String type, JSONArray classes, String test) throws SQLException {
-        PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO exercises(`id`, `type`, `classes`, `test`) " +
+        PreparedStatement stmt = this.connection.prepareStatement("INSERT OR REPLACE INTO exercises(`id`, `type`, `classes`, `test`) " +
                 "VALUES (?, ?, json(?), ?)");
         stmt.setInt(1, id);
         stmt.setString(2, type);

@@ -43,11 +43,11 @@ public class Exercise {
             List<String> imports = javaSource.getImports();
             for (String illegalClass: illegalClasses) {
                 String[] illegalClassUses = new String[]{
-                        illegalClass + ".",
-                        illegalClass + ";",
-                        illegalClass + "(",
-                        illegalClass + " ",
-                        illegalClass + "="
+                    illegalClass + ".",
+                    illegalClass + ";",
+                    illegalClass + "(",
+                    illegalClass + " ",
+                    illegalClass + "="
                 };
                 if (stringContains(currentClass, illegalClassUses) ||
                     stringContains(imports.toString(), illegalClassUses)) {
